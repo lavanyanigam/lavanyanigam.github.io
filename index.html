@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lavanya Nigam</title>
+<meta name="description" content="Lavanya Nigam, Mathematics & Computing, IIT Roorkee. Researching non-autoregressive language generation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0E1A;
+    --surface:#12172B;
+    --surface-2:#171d35;
+    --line: rgba(232,229,222,0.12);
+    --text:#EDEAE0;
+    --muted:#B4B8CD;
+    --gold:#E8B04B;
+    --violet:#7C5CFF;
+    --radius: 2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'DM Sans', sans-serif;
+    font-size:18px;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--gold); color:#12172B; }
+
+  .display{
+    font-family:'Newsreader', serif;
+    font-style:italic;
+    font-weight:500;
+    letter-spacing:-0.01em;
+  }
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  a{ color:inherit; }
+
+  /* layout shell */
+  .shell{
+    display:grid;
+    grid-template-columns: 84px 1fr;
+    min-height:100vh;
+  }
+  .rail{
+    position:sticky;
+    top:0;
+    height:100vh;
+    border-right:1px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
+    padding:32px 0;
+  }
+  .rail-name{
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px;
+    letter-spacing:0.18em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+  .rail-dots{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    align-items:center;
+  }
+  .rail-dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--line);
+    border:1px solid var(--line);
+    transition:background .25s, transform .25s;
+  }
+  .rail-dot.active{ background:var(--gold); border-color:var(--gold); transform:scale(1.4); }
+  .rail-deg{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--muted);
+    letter-spacing:0.1em;
+  }
+
+  main{ min-width:0; }
+
+  section{
+    position:relative;
+    padding: 120px 8vw 120px 7vw;
+    border-bottom:1px solid var(--line);
+  }
+  section:last-of-type{ border-bottom:none; }
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--gold);
+    letter-spacing:0.14em;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:28px; height:1px;
+    background:var(--gold);
+    display:inline-block;
+  }
+
+  h1,h2,h3{ margin:0; font-weight:500; }
+
+  /* HERO */
+  .hero{
+    padding-top:80px;
+    display:grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap:48px;
+    align-items:center;
+  }
+  .hero h1{
+    font-size: clamp(2.4rem, 5vw, 4.4rem);
+    line-height:1.05;
+  }
+  .hero h1 em{ color:var(--gold); font-style:italic; }
+  .hero-sub{
+    max-width:46ch;
+    color:var(--muted);
+    margin-top:24px;
+    font-size:1.05rem;
+  }
+  .hero-meta{
+    margin-top:40px;
+    display:flex;
+    gap:32px;
+    flex-wrap:wrap;
+  }
+  .hero-meta div{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--muted); }
+  .hero-meta div b{ display:block; color:var(--text); font-size:14px; margin-bottom:4px; }
+
+  /* diagram */
+  .diagram-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:28px;
+    position:relative;
+  }
+  .diagram-card .cap{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--muted);
+    display:flex;
+    justify-content:space-between;
+    margin-top:14px;
+  }
+  .diagram-card .cap b{ color:var(--gold); }
+  #slider{
+    width:100%;
+    margin-top:18px;
+    accent-color:var(--gold);
+  }
+  .toggle-row{
+    display:flex; gap:8px; margin-top:16px;
+  }
+  .toggle-row button{
+    flex:1;
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--muted);
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:.06em;
+    padding:8px;
+    cursor:pointer;
+    transition: all .2s;
+  }
+  .toggle-row button.on{
+    border-color:var(--gold);
+    color:var(--gold);
+  }
+
+  /* about */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:60px;
+    align-items: center;
+  }
+  .about-photo {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--gold);
+  }
+  .about-grid p{ color:var(--muted); font-size:1.02rem; max-width:60ch;}
+  .about-grid p + p{ margin-top:16px; }
+  .facts{
+    border-top:1px solid var(--line);
+    margin-top:28px;
+    padding-top:28px;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:20px;
+  }
+  .facts .fact{ margin-bottom:0; }
+  .facts .fact .k{ font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--gold); letter-spacing:.08em;}
+  .facts .fact .v{ margin-top:4px; }
+
+  /* research */
+  .paper-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:40px;
+    display:grid;
+    grid-template-columns: 1.3fr 0.9fr;
+    gap:40px;
+  }
+  .paper-card h3{ font-size:1.7rem; max-width:22ch;}
+  .paper-status{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--muted);
+    margin-top:10px;
+    letter-spacing:.05em;
+  }
+  .paper-card p{ color:var(--muted); margin-top:18px; max-width:56ch; }
+  .stat-arc{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    justify-content:center;
+    border-left:1px dashed var(--line);
+    padding-left:32px;
+  }
+  .stat{ }
+  .stat .num{ font-family:'JetBrains Mono', monospace; font-size:1.9rem; color:var(--gold); }
+  .stat .lbl{ font-size:14px; color:var(--muted); margin-top:2px; }
+
+  /* projects */
+  .proj-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .proj{
+    background:var(--bg);
+    padding:36px;
+    transition: background .25s;
+  }
+  .proj:hover{ background:var(--surface); }
+  .proj h3{ font-size:1.3rem; }
+  .proj .tagline{ color:var(--gold); font-family:'JetBrains Mono', monospace; font-size:11px; margin-top:8px; letter-spacing:.04em;}
+  .proj p{ color:var(--muted); margin-top:16px; font-size:.95rem; }
+  .proj .stats{
+    display:flex; gap:22px; margin-top:20px; flex-wrap:wrap;
+  }
+  .proj .stats div{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--muted); }
+  .proj .stats div b{ display:block; color:var(--text); font-size:15px; }
+  .proj .link{
+    display:inline-block;
+    margin-top:22px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--text);
+    border-bottom:1px solid var(--gold);
+    padding-bottom:2px;
+  }
+
+  /* involvement */
+  .timeline{
+    display:grid;
+    grid-template-columns: 120px 1fr;
+    row-gap:36px;
+    column-gap:24px;
+  }
+  .timeline .when{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--gold); padding-top:2px; }
+  .timeline .what h4{ font-weight:500; font-size:1.05rem; margin:0 0 6px 0; }
+  .timeline .what p{ color:var(--muted); margin:0; font-size:.95rem; max-width:60ch; }
+
+  /* contact */
+  .contact{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:40px;
+  }
+  .contact h2{ font-size:clamp(2rem,4vw,3.2rem); max-width:14ch; }
+  .contact-links{ display:flex; flex-direction:column; gap:10px; align-items:flex-end; }
+  .contact-links a{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--muted);
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+    transition: color .2s, border-color .2s;
+  }
+  .contact-links a:hover{ color:var(--gold); border-color:var(--gold); }
+  footer{
+    padding:24px 8vw;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--muted);
+    display:flex;
+    justify-content:space-between;
+  }
+
+  @media (max-width: 860px){
+    .shell{ grid-template-columns: 44px 1fr; }
+    .rail-name{ font-size:10px; }
+    section{ padding:80px 6vw; }
+    .hero{ grid-template-columns:1fr; }
+    .about-grid{ grid-template-columns:1fr; }
+    .facts{ border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:24px; }
+    .paper-card{ grid-template-columns:1fr; }
+    .stat-arc{ border-left:none; padding-left:0; border-top:1px dashed var(--line); padding-top:24px; flex-direction:row; flex-wrap:wrap; }
+    .proj-grid{ grid-template-columns:1fr; }
+    .contact{ flex-direction:column; align-items:flex-start; }
+    .contact-links{ align-items:flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ transition:none !important; }
+  }
+
+  :focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <nav class="rail" aria-label="Section navigation">
+    <div class="rail-name">Lavanya Nigam</div>
+    <div class="rail-dots" id="railDots">
+      <a href="#hero" class="rail-dot active" data-deg="0°" aria-label="Hero"></a>
+      <a href="#about" class="rail-dot" data-deg="18°" aria-label="About"></a>
+      <a href="#research" class="rail-dot" data-deg="41°" aria-label="Research"></a>
+      <a href="#projects" class="rail-dot" data-deg="73°" aria-label="Projects"></a>
+      <a href="#involvement" class="rail-dot" data-deg="128°" aria-label="Involvement"></a>
+      <a href="#contact" class="rail-dot" data-deg="180°" aria-label="Contact"></a>
+    </div>
+    <div class="rail-deg mono" id="railDeg">0°</div>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div>
+        <div class="eyebrow">MASK → TOKEN, 0°</div>
+        <h1 class="display">Building models that <em>survive the training run.</em></h1>
+        <p class="hero-sub">Hi! I'm Lavanya. I'm a second-year Mathematics & Computing student at IIT Roorkee, researching diffusion language models with the Vision and Language Group. My current work explores the geometry underneath natural language generation, alongside my interests in Computer Vision.</p>
+        <div class="hero-meta">
+          <div><b>IIT Roorkee</b>Maths &amp; Computing, '29</div>
+          <div><b>Vision and Language Group</b>Core Member </div>
+          <div><b>Geek Gazette</b>Editor</div>
+        </div>
+      </div>
+
+      <div class="diagram-card">
+        <svg id="geoSvg" viewBox="0 0 340 340" width="100%" role="img" aria-label="Diagram comparing linear interpolation and spherical interpolation between a mask embedding and a target token embedding on a hypersphere.">
+          <circle cx="170" cy="170" r="130" fill="none" stroke="rgba(232,229,222,0.18)" stroke-width="1"/>
+          <!-- chord (LERP) -->
+          <line id="chord" x1="70" y1="230" x2="270" y2="90" stroke="#7C5CFF" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.85"/>
+          <!-- arc (SLERP) -->
+          <path id="arc" d="M70,230 A130,130 0 0,1 270,90" fill="none" stroke="#E8B04B" stroke-width="2"/>
+          <circle cx="70" cy="230" r="5" fill="#EDEAE0"/>
+          <text x="46" y="252" fill="#8B90A8" font-family="JetBrains Mono" font-size="11">m (mask)</text>
+          <circle cx="270" cy="90" r="5" fill="#EDEAE0"/>
+          <text x="232" y="76" fill="#8B90A8" font-family="JetBrains Mono" font-size="11">μ (target)</text>
+          <circle id="dotLerp" cx="70" cy="230" r="5" fill="#7C5CFF"/>
+          <circle id="dotSlerp" cx="70" cy="230" r="5" fill="#E8B04B"/>
+        </svg>
+        <div class="cap">
+          <span>λ = <b id="lambdaVal">0.00</b></span>
+          <span id="normReadout">‖x‖ = 1.000 · r<sub>m</sub></span>
+        </div>
+        <input type="range" id="slider" min="0" max="100" value="0" aria-label="Interpolation weight lambda">
+        <div class="toggle-row">
+          <button id="btnLerp" class="on">LERP: chord</button>
+          <button id="btnSlerp" class="on">SLERP: arc</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="about-grid">
+        <div>
+          <div class="eyebrow">ABOUT, 18°</div>
+          <h2 class="display" style="font-size:2rem; margin-bottom:20px;">Reading papers, running experiments, shipping models.</h2>
+          <p>I'm interested in the full ML stack, not just the idea on page one of a paper, but whether it survives contact with a training run. At VLG, I work on non-autoregressive text generation: masked diffusion language models that denoise a whole sequence in parallel instead of committing to one token at a time.</p>
+          <p>Outside research, I write for Geek Gazette, translating dense technical ideas for a general campus audience. I'm also part of the operations team behind Virasat, IIT Roorkee's heritage arts festival, which has taught me as much about coordination as any lab has about optimization.</p>
+          
+          <div class="facts">
+            <div class="fact"><div class="k">FOCUS</div><div class="v">Diffusion LMs · NLP · Computer Vision</div></div>
+            <div class="fact"><div class="k">TOOLS</div><div class="v">Python, PyTorch, SQL, C++, Flask</div></div>
+            <div class="fact"><div class="k">EDUCATION</div><div class="v">BS in Mathematics &amp; Computing, IIT Roorkee</div></div>
+            <div class="fact"><div class="k">ACHIEVEMENTS</div><div class="v">JEE Advanced AIR 4636 (Top 0.3% of 1.5M+ candidates)</div></div>
+            <div class="fact"><div class="k">LOOKING FOR</div><div class="v">ML &amp; Research internships in GenAI, NLP, or CV</div></div>
+            <div class="fact"><div class="k">LANGUAGES</div><div class="v">English · Hindi (native) · German (A1)</div></div>
+          </div>
+        </div>
+        <div>
+          <img src="lavanya.jpg" alt="Lavanya Nigam" class="about-photo">
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research">
+      <div class="eyebrow">RESEARCH, 41°</div>
+      <div class="paper-card">
+        <div>
+          <h3 class="display">Lost in Interpolation: Why Predictive Feedback Fails in Diffusion Language Models</h3>
+          <div class="paper-status">Under review, COLM 2026 · with the Vision and Language Group</div>
+          <p>Soft-masking speeds up diffusion language model training by blending the mask embedding with the model's own top-k predictions during fine-tuning, but the standard version does that blending along a straight line, as if the embedding space were flat. It isn't. Token embeddings sit near a thin spherical shell, so a straight-line blend cuts through the inside of that shell and quietly shrinks the embedding's norm at every masked position, feeding the backbone inputs it never saw in pretraining.</p>
+          <p>We replace the straight line with a great-circle arc: a spherical soft-masking scheme built on the Fréchet mean of the top-k directions and a norm-restoring SLERP step. Fixed at the same confidence weight, the arc-based version tracks clean training behavior while the straight-line version degrades steadily  and generates text that scores far closer to human-written text on MAUVE.</p>
+        </div>
+        <div class="stat-arc">
+          <div class="stat"><div class="num">~73°</div><div class="lbl">geodesic angle between mask &amp; target embedding, held throughout training</div></div>
+          <div class="stat"><div class="num">0.259</div><div class="lbl">MAUVE score at fixed λ=0.3 (arc), vs. 0.055 (line)</div></div>
+          <div class="stat"><div class="num">3.9</div><div class="lbl">perplexity gap opened by the end of a fixed-weight training run</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="eyebrow">PROJECTS, 73°</div>
+      <div class="proj-grid">
+        <div class="proj">
+          <h3>SortNow</h3>
+          <div class="tagline">CUSTOM YOLO · WASTE CLASSIFICATION</div>
+          <p>A YOLOv1-style detector built from scratch - 14×14 grid, 2 boxes per cell, that sorts waste into six categories through a Flask web app, trained on 7,260 images and validated on 3,114.</p>
+          <div class="stats">
+            <div><b>448×448</b>input</div>
+            <div><b>6</b>classes</div>
+            <div><b>100</b>epochs (early-stop 64)</div>
+          </div>
+          <a class="link" href="https://github.com/lavanyanigam/SortNow" target="_blank" rel="noopener">github.com/lavanyanigam/SortNow →</a>
+        </div>
+        <div class="proj">
+          <h3>Spondylolisthesis Classifier</h3>
+          <div class="tagline">XGBOOST · SPINE GEOMETRY</div>
+          <p>Classifies lumbar spine X-rays into Normal, Anterolisthesis, or Retrolisthesis using geometric features engineered from L1-S1 coordinates, validated against an orthopedist's diagnoses.</p>
+          <div class="stats">
+            <div><b>88.3%</b>test accuracy</div>
+            <div><b>0.753</b>Cohen's κ vs. doctor</div>
+            <div><b>44</b>engineered features</div>
+          </div>
+          <a class="link" href="https://github.com/lavanyanigam/Spondylolisthesis-Vertebral-Detection" target="_blank" rel="noopener">github.com/lavanyanigam/Spondylolisthesis-Vertebral-Detection →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- INVOLVEMENT -->
+    <section id="involvement">
+      <div class="eyebrow">INVOLVEMENT, 128°</div>
+      <div class="timeline">
+        <div class="when">2026-present</div>
+        <div class="what">
+          <h4>Core Member, Vision and Language Group</h4>
+          <p>Researching diffusion language models and non-autoregressive text generation; collaborating on a manuscript currently under review.</p>
+        </div>
+        <div class="when">2025-present</div>
+        <div class="what">
+          <h4>Editor, Geek Gazette</h4>
+          <p>Writing and editing technology and science articles for the IIT Roorkee student community, with a focus on making technical ideas accessible.</p>
+        </div>
+        <div class="when">2025-present</div>
+        <div class="what">
+          <h4>SPIC MACAY Heritage Club, IIT Roorkee</h4>
+          <p>Organising-team member for Virasat, IIT Roorkee's flagship cultural festival celebrating India's heritage, working across the operations vertical.</p>
+        </div>
+        <div class="when">2022-2023</div>
+        <div class="what">
+          <h4>Gold Medalist, Delhi Public School R.K. Puram</h4>
+          <p>Awarded for academic excellence in the final year; scored 96.2% in the AISSCE, ranked 12th in school.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="contact">
+        <h2 class="display">Let's talk ML, research roles or whatever you're currently optimizing.</h2>
+        <div class="contact-links">
+          <a href="https://www.linkedin.com/in/lavanyanigam" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="https://github.com/lavanyanigam" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>© 2026 Lavanya Nigam</span>
+    </footer>
+  </main>
+</div>
+
+<script>
+  // --- geodesic slider logic ---
+  const slider = document.getElementById('slider');
+  const lambdaVal = document.getElementById('lambdaVal');
+  const normReadout = document.getElementById('normReadout');
+  const dotLerp = document.getElementById('dotLerp');
+  const dotSlerp = document.getElementById('dotSlerp');
+  const chord = document.getElementById('chord');
+  const arc = document.getElementById('arc');
+  const btnLerp = document.getElementById('btnLerp');
+  const btnSlerp = document.getElementById('btnSlerp');
+
+  const cx = 170, cy = 170, r = 130;
+  const p0 = {x:70, y:230};   // mask
+  const p1 = {x:270, y:90};   // target
+  const arcLength = arc.getTotalLength();
+
+  let showLerp = true, showSlerp = true;
+
+  function update(){
+    const lambda = slider.value/100;
+    lambdaVal.textContent = lambda.toFixed(2);
+
+    // LERP point (straight line, pulled toward center = norm collapse)
+    const lx = p0.x + (p1.x-p0.x)*lambda;
+    const ly = p0.y + (p1.y-p0.y)*lambda;
+    dotLerp.setAttribute('cx', lx);
+    dotLerp.setAttribute('cy', ly);
+    dotLerp.style.opacity = showLerp ? 1 : 0;
+
+    // SLERP point (arc, stays on circle)
+    const pt = arc.getPointAtLength(lambda * arcLength);
+    dotSlerp.setAttribute('cx', pt.x);
+    dotSlerp.setAttribute('cy', pt.y);
+    dotSlerp.style.opacity = showSlerp ? 1 : 0;
+
+    const normLerp = Math.hypot(lx-cx, ly-cy)/r;
+    normReadout.innerHTML = showLerp
+      ? `‖x‖ = <b style="color:#7C5CFF">${normLerp.toFixed(3)}</b> · r<sub>m</sub> (LERP)`
+      : `‖x‖ = 1.000 · r<sub>m</sub> (SLERP, always on-shell)`;
+  }
+
+  slider.addEventListener('input', update);
+  btnLerp.addEventListener('click', ()=>{
+    showLerp = !showLerp;
+    btnLerp.classList.toggle('on', showLerp);
+    chord.style.opacity = showLerp ? 0.85 : 0.12;
+    update();
+  });
+  btnSlerp.addEventListener('click', ()=>{
+    showSlerp = !showSlerp;
+    btnSlerp.classList.toggle('on', showSlerp);
+    arc.style.opacity = showSlerp ? 1 : 0.12;
+    update();
+  });
+  update();
+
+  // --- scroll spy for rail dots ---
+  const sections = ['hero','about','research','projects','involvement','contact'].map(id=>document.getElementById(id));
+  const dots = Array.from(document.querySelectorAll('.rail-dot'));
+  const railDeg = document.getElementById('railDeg');
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const idx = sections.indexOf(entry.target);
+        dots.forEach(d=>d.classList.remove('active'));
+        if(dots[idx]){
+          dots[idx].classList.add('active');
+          railDeg.textContent = dots[idx].dataset.deg;
+        }
+      }
+    });
+  }, {threshold:0.4});
+  sections.forEach(s=> s && io.observe(s));
+</script>
+
+</body>
+</html>

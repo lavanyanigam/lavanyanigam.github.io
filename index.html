@@ -378,7 +378,6 @@
 
       <div class="diagram-card">
         <svg id="geoSvg" viewBox="0 0 340 340" width="100%" role="img" aria-label="Diagram comparing linear interpolation and spherical interpolation between a mask embedding and a target token embedding on a hypersphere.">
-          <text x="170" y="24" fill="#E8B04B" font-family="JetBrains Mono" font-size="10" text-anchor="middle" letter-spacing="0.05em">⟳ Drag points m or μ to move arc</text>
           <circle cx="170" cy="170" r="130" fill="none" stroke="rgba(232,229,222,0.18)" stroke-width="1"/>
           <!-- chord (LERP) -->
           <line id="chord" x1="70" y1="230" x2="270" y2="90" stroke="#7C5CFF" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.85"/>
@@ -392,13 +391,16 @@
           <circle id="dotSlerp" cx="70" cy="230" r="5" fill="#E8B04B"/>
         </svg>
         <div class="cap">
-          <span>λ = <b id="lambdaVal">0.65</b></span>
-          <span id="normReadout">‖x‖ = 0.332 · r<sub>m</sub></span>
+          <span>λ = <b id="lambdaVal">0.47</b></span>
+          <span id="normReadout">‖x‖ = 0.064 · r<sub>m</sub></span>
         </div>
-        <input type="range" id="slider" min="0" max="100" value="65" aria-label="Interpolation weight lambda">
+        <input type="range" id="slider" min="0" max="100" value="47" aria-label="Interpolation weight lambda">
         <div class="toggle-row">
           <button id="btnLerp" class="on">LERP: chord</button>
           <button id="btnSlerp" class="on">SLERP: arc</button>
+        </div>
+        <div style="font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--gold); text-align:center; margin-top:12px; letter-spacing:0.04em;">
+          Drag slider to change λ &amp; move interpolated points · ⟳ Drag points m or μ to move arc
         </div>
       </div>
     </section>

@@ -251,21 +251,24 @@
 
   /* projects */
   .proj-grid{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap:1px;
-    background:var(--line);
-    border:1px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    gap:32px;
   }
   .proj{
-    background:var(--bg);
+    background:var(--surface);
+    border:1px solid var(--line);
     padding:36px;
-    transition: background .25s;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:36px;
+    align-items:center;
+    transition: border-color .25s;
   }
-  .proj:hover{ background:var(--surface); }
-  .proj h3{ font-size:1.3rem; }
-  .proj .tagline{ color:var(--gold); font-family:'JetBrains Mono', monospace; font-size:11px; margin-top:8px; letter-spacing:.04em;}
-  .proj p{ color:var(--muted); margin-top:16px; font-size:.95rem; }
+  .proj:hover{ border-color:rgba(232,176,75,0.4); }
+  .proj h3{ font-size:1.5rem; }
+  .proj .tagline{ color:var(--gold); font-family:'JetBrains Mono', monospace; font-size:11px; margin-top:6px; letter-spacing:.04em;}
+  .proj p{ color:var(--muted); margin-top:14px; font-size:.95rem; }
   .proj .stats{
     display:flex; gap:22px; margin-top:20px; flex-wrap:wrap;
   }
@@ -329,7 +332,7 @@
     .facts{ border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:24px; }
     .paper-card{ grid-template-columns:1fr; }
     .stat-arc{ border-left:none; padding-left:0; border-top:1px dashed var(--line); padding-top:24px; flex-direction:row; flex-wrap:wrap; }
-    .proj-grid{ grid-template-columns:1fr; }
+    .proj{ grid-template-columns:1fr; }
     .contact{ flex-direction:column; align-items:flex-start; }
     .contact-links{ align-items:flex-start; }
   }
@@ -470,36 +473,40 @@
       <div class="eyebrow">PROJECTS, 73°</div>
       <div class="proj-grid">
         <div class="proj">
-          <a href="https://github.com/lavanyanigam/SortNow" target="_blank" rel="noopener" style="display:block; margin-bottom:20px; overflow:hidden; border:1px solid var(--line); border-radius:4px; background:#000; transition:border-color 0.2s;">
+          <a href="https://github.com/lavanyanigam/SortNow" target="_blank" rel="noopener" style="display:block; overflow:hidden; border:1px solid var(--line); border-radius:4px; background:#000; transition:border-color 0.2s;">
             <img src="sortnow-demo.png" alt="SortNow Custom YOLO Waste Classification Demo" style="width:100%; height:auto; display:block;">
           </a>
-          <h3>SortNow</h3>
-          <div class="tagline">CUSTOM YOLO · WASTE CLASSIFICATION</div>
-          <p>A YOLOv1-style detector built from scratch - 14×14 grid, 2 boxes per cell, that sorts waste into six categories through a Flask web app, trained on 7,260 images and validated on 3,114.</p>
-          <div class="stats">
-            <div><b>448×448</b>input</div>
-            <div><b>6</b>classes</div>
-            <div><b>100</b>epochs (early-stop 64)</div>
-          </div>
-          <div style="margin-top:22px; display:flex; gap:16px; flex-wrap:wrap;">
-            <a class="link" href="https://github.com/lavanyanigam/SortNow" target="_blank" rel="noopener">GitHub ↗</a>
+          <div>
+            <h3>SortNow</h3>
+            <div class="tagline">CUSTOM YOLO · WASTE CLASSIFICATION</div>
+            <p>A YOLOv1-style detector built from scratch - 14×14 grid, 2 boxes per cell, that sorts waste into six categories through a Flask web app, trained on 7,260 images and validated on 3,114.</p>
+            <div class="stats">
+              <div><b>448×448</b>input</div>
+              <div><b>6</b>classes</div>
+              <div><b>100</b>epochs (early-stop 64)</div>
+            </div>
+            <div style="margin-top:22px; display:flex; gap:16px; flex-wrap:wrap;">
+              <a class="link" href="https://github.com/lavanyanigam/SortNow" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
           </div>
         </div>
         <div class="proj">
-          <a href="https://spondylolisthesis-vertebral-detection-gi2nd3afpslw7cphsjrxzj.streamlit.app/" target="_blank" rel="noopener" style="display:block; margin-bottom:20px; overflow:hidden; border:1px solid var(--line); border-radius:4px; background:#000; transition:border-color 0.2s;">
-            <img src="spondylolisthesis-demo.png" alt="Spondylolisthesis Classifier Interactive Interface" style="width:100%; height:auto; display:block;">
+          <a href="https://spondylolisthesis-vertebral-detection-gi2nd3afpslw7cphsjrxzj.streamlit.app/" target="_blank" rel="noopener" style="display:block; overflow:hidden; border:1px solid var(--line); border-radius:4px; background:#000; transition:border-color 0.2s;">
+            <img src="spondylolisthesis-demo.png" alt="Spondylolisthesis Classifier Interactive Interface with SHAP explanation" style="width:100%; height:auto; display:block;">
           </a>
-          <h3>Spondylolisthesis Classifier</h3>
-          <div class="tagline">XGBOOST · SPINE GEOMETRY · STREAMLIT APP</div>
-          <p>Classifies lumbar spine X-rays into Normal, Anterolisthesis, or Retrolisthesis using geometric features engineered from L1–S1 landmark coordinates, validated against an orthopedist's diagnoses.</p>
-          <div class="stats">
-            <div><b>88.3%</b>test accuracy</div>
-            <div><b>0.753</b>Cohen's κ vs. doctor</div>
-            <div><b>44</b>engineered features</div>
-          </div>
-          <div style="margin-top:22px; display:flex; gap:16px; flex-wrap:wrap;">
-            <a class="link" href="https://spondylolisthesis-vertebral-detection-gi2nd3afpslw7cphsjrxzj.streamlit.app/" target="_blank" rel="noopener">Live Streamlit App ↗</a>
-            <a class="link" href="https://github.com/lavanyanigam/Spondylolisthesis-Vertebral-Detection" target="_blank" rel="noopener">GitHub ↗</a>
+          <div>
+            <h3>Spondylolisthesis Classifier</h3>
+            <div class="tagline">XGBOOST · SPINE GEOMETRY · STREAMLIT APP</div>
+            <p>Classifies lumbar spine X-rays into Normal, Anterolisthesis, or Retrolisthesis using geometric features engineered from L1–S1 landmark coordinates, validated against an orthopedist's diagnoses. Features interactive SHAP explanation plots for individual predictions.</p>
+            <div class="stats">
+              <div><b>88.3%</b>test accuracy</div>
+              <div><b>0.753</b>Cohen's κ vs. doctor</div>
+              <div><b>44</b>engineered features</div>
+            </div>
+            <div style="margin-top:22px; display:flex; gap:16px; flex-wrap:wrap;">
+              <a class="link" href="https://spondylolisthesis-vertebral-detection-gi2nd3afpslw7cphsjrxzj.streamlit.app/" target="_blank" rel="noopener">Live Streamlit App ↗</a>
+              <a class="link" href="https://github.com/lavanyanigam/Spondylolisthesis-Vertebral-Detection" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
           </div>
         </div>
       </div>

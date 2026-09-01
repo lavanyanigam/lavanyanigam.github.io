@@ -368,7 +368,7 @@
       <div>
         <div class="eyebrow">MASK → TOKEN, 0°</div>
         <h1 class="display">Building models that <em>survive the training run.</em></h1>
-        <p class="hero-sub">Hi! I'm Lavanya. I'm a second-year Mathematics & Computing student at IIT Roorkee, researching diffusion language models with the Vision and Language Group. My current work explores the geometry underneath natural language generation, alongside my interests in Computer Vision.</p>
+        <p class="hero-sub">Hi! I'm Lavanya. I'm a second-year Mathematics &amp; Computing student at IIT Roorkee, researching diffusion language models with the Vision and Language Group. My current work explores the geometry underneath natural language generation, alongside my interests in Computer Vision.</p>
         <div class="hero-meta">
           <div><b>IIT Roorkee</b>Maths &amp; Computing, '29</div>
           <div><b>Vision and Language Group</b>Core Member </div>
@@ -378,23 +378,24 @@
 
       <div class="diagram-card">
         <svg id="geoSvg" viewBox="0 0 340 340" width="100%" role="img" aria-label="Diagram comparing linear interpolation and spherical interpolation between a mask embedding and a target token embedding on a hypersphere.">
+          <text x="170" y="24" fill="#E8B04B" font-family="JetBrains Mono" font-size="10" text-anchor="middle" letter-spacing="0.05em">⟳ Drag points m or μ to move arc</text>
           <circle cx="170" cy="170" r="130" fill="none" stroke="rgba(232,229,222,0.18)" stroke-width="1"/>
           <!-- chord (LERP) -->
           <line id="chord" x1="70" y1="230" x2="270" y2="90" stroke="#7C5CFF" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.85"/>
           <!-- arc (SLERP) -->
           <path id="arc" d="M70,230 A130,130 0 0,1 270,90" fill="none" stroke="#E8B04B" stroke-width="2"/>
-          <circle cx="70" cy="230" r="5" fill="#EDEAE0"/>
+          <circle cx="70" cy="230" r="7" fill="#EDEAE0" style="cursor: grab;"/>
           <text x="46" y="252" fill="#8B90A8" font-family="JetBrains Mono" font-size="11">m (mask)</text>
-          <circle cx="270" cy="90" r="5" fill="#EDEAE0"/>
+          <circle cx="270" cy="90" r="7" fill="#EDEAE0" style="cursor: grab;"/>
           <text x="232" y="76" fill="#8B90A8" font-family="JetBrains Mono" font-size="11">μ (target)</text>
           <circle id="dotLerp" cx="70" cy="230" r="5" fill="#7C5CFF"/>
           <circle id="dotSlerp" cx="70" cy="230" r="5" fill="#E8B04B"/>
         </svg>
         <div class="cap">
-          <span>λ = <b id="lambdaVal">0.00</b></span>
-          <span id="normReadout">‖x‖ = 1.000 · r<sub>m</sub></span>
+          <span>λ = <b id="lambdaVal">0.65</b></span>
+          <span id="normReadout">‖x‖ = 0.332 · r<sub>m</sub></span>
         </div>
-        <input type="range" id="slider" min="0" max="100" value="0" aria-label="Interpolation weight lambda">
+        <input type="range" id="slider" min="0" max="100" value="65" aria-label="Interpolation weight lambda">
         <div class="toggle-row">
           <button id="btnLerp" class="on">LERP: chord</button>
           <button id="btnSlerp" class="on">SLERP: arc</button>
@@ -434,7 +435,7 @@
       <div class="paper-card">
         <div>
           <h3 class="display">Lost in Interpolation: Why Predictive Feedback Fails in Diffusion Language Models</h3>
-          <div class="paper-status">COLM Workshop 2026 · with the Vision and Language Group</div>
+          <div class="paper-status">COLM Workshop 2026 · with Aryan Sood, Ishaan Bansal, Vidit Aggarwal</div>
           <p>Soft-masking speeds up diffusion language model training by blending the mask embedding with the model's own top-k predictions during fine-tuning, but the standard version does that blending along a straight line, as if the embedding space were flat. It isn't. Token embeddings sit near a thin spherical shell, so a straight-line blend cuts through the inside of that shell and quietly shrinks the embedding's norm at every masked position, feeding the backbone inputs it never saw in pretraining.</p>
           <p>We replace the straight line with a great-circle arc: a spherical soft-masking scheme built on the Fréchet mean of the top-k directions and a norm-restoring SLERP step. Fixed at the same confidence weight, the arc-based version tracks clean training behavior while the straight-line version degrades steadily and generates text that scores far closer to human-written text on MAUVE.</p>
           <a class="link" href="https://openreview.net/forum?id=TwskOBPR9d" target="_blank" rel="noopener" style="display:inline-block; margin-top:20px; font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--text); border-bottom:1px solid var(--gold); padding-bottom:2px; text-decoration:none;">OpenReview Paper ↗</a>

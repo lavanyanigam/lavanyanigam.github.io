@@ -439,6 +439,21 @@
       <!-- PAPER 1 -->
       <div class="paper-card">
         <div>
+          <h3 class="display">Are You Sure You’re Sure? Two Confounds in a Sycophancy Benchmark</h3>
+          <div class="paper-status">IIT Roorkee · with Atharv Gupta, Akshat Jindal, Aryan Sood</div>
+          <p>Sycophancy is a language model's tendency to cave when a user pushes back, abandoning a correct answer for the user's. Scripted objections in benchmarks like SycEval attempt to measure timing effects, but we show that prompt template artifacts—specifically answer naming and instruction placement—drive these reported effects rather than true model behavior.</p>
+          <p>By auditing SycEval's template design, we find that explicitly naming a target answer boosts follow rate by 14.1 to 49.5 percentage points, reversing reported timing gaps once controlled. Relocating output-format instructions further corrects caving behavior, demonstrating how template confounds can be identified and fixed before publishing.</p>
+        </div>
+        <div class="stat-arc">
+          <div class="stat"><div class="num">+14.1–49.5pp</div><div class="lbl">follow rate increase driven purely by target answer naming in objection templates</div></div>
+          <div class="stat"><div class="num">5.1pp</div><div class="lbl">reduction in model caving by relocating output-format instructions (Llama-3.1-8B)</div></div>
+          <div class="stat"><div class="num">Correctable</div><div class="lbl">confounds stem from prompt templates rather than model backbone</div></div>
+        </div>
+      </div>
+
+      <!-- PAPER 2 -->
+      <div class="paper-card">
+        <div>
           <h3 class="display">Lost in Interpolation: Why Predictive Feedback Fails in Diffusion Language Models</h3>
           <div class="paper-status">COLM Workshop 2026 · with Aryan Sood, Ishaan Bansal, Vidit Aggarwal</div>
           <p>Soft-masking speeds up diffusion language model training by blending the mask embedding with the model's own top-k predictions during fine-tuning, but the standard version does that blending along a straight line, as if the embedding space were flat. It isn't. Token embeddings sit near a thin spherical shell, so a straight-line blend cuts through the inside of that shell and quietly shrinks the embedding's norm at every masked position, feeding the backbone inputs it never saw in pretraining.</p>
@@ -451,45 +466,12 @@
           <div class="stat"><div class="num">3.9</div><div class="lbl">perplexity gap opened by the end of a fixed-weight training run</div></div>
         </div>
       </div>
-
-      <!-- PAPER 2 -->
-      <div class="paper-card">
-        <div>
-          <h3 class="display">Are You Sure You’re Sure? Two Confounds in a Sycophancy Benchmark</h3>
-          <div class="paper-status">IIT Roorkee · with Atharv Gupta, Akshat Jindal, Aryan Sood</div>
-          <p>Sycophancy is a language model's tendency to cave when a user pushes back, abandoning a correct answer for the user's. Scripted objections in benchmarks like SycEval attempt to measure timing effects, but we show that prompt template artifacts—specifically answer naming and instruction placement—drive these reported effects rather than true model behavior.</p>
-          <p>By auditing SycEval's template design, we find that explicitly naming a target answer boosts follow rate by 14.1 to 49.5 percentage points, reversing reported timing gaps once controlled. Relocating output-format instructions further corrects caving behavior, demonstrating how template confounds can be identified and fixed before publishing.</p>
-        </div>
-        <div class="stat-arc">
-          <div class="stat"><div class="num">+14.1–49.5pp</div><div class="lbl">follow rate increase driven purely by target answer naming in objection templates</div></div>
-          <div class="stat"><div class="num">5.1pp</div><div class="lbl">reduction in model caving by relocating output-format instructions (Llama-3.1-8B)</div></div>
-          <div class="stat"><div class="num">Correctable</div><div class="lbl">confounds stem from prompt templates rather than model backbone</div></div>
-        </div>
-      </div>
     </section>
 
     <!-- PROJECTS -->
     <section id="projects">
       <div class="eyebrow">PROJECTS, 73°</div>
       <div class="proj-grid">
-        <div class="proj">
-          <a href="https://github.com/lavanyanigam/SortNow" target="_blank" rel="noopener" style="display:block; overflow:hidden; border:1px solid var(--line); border-radius:4px; background:#000; transition:border-color 0.2s;">
-            <img src="sortnow-demo.png" alt="SortNow Custom YOLO Waste Classification Demo" style="width:100%; height:auto; display:block;">
-          </a>
-          <div>
-            <h3>SortNow</h3>
-            <div class="tagline">CUSTOM YOLO · WASTE CLASSIFICATION</div>
-            <p>A YOLOv1-style detector built from scratch - 14×14 grid, 2 boxes per cell, that sorts waste into six categories through a Flask web app, trained on 7,260 images and validated on 3,114.</p>
-            <div class="stats">
-              <div><b>448×448</b>input</div>
-              <div><b>6</b>classes</div>
-              <div><b>100</b>epochs (early-stop 64)</div>
-            </div>
-            <div style="margin-top:22px; display:flex; gap:16px; flex-wrap:wrap;">
-              <a class="link" href="https://github.com/lavanyanigam/SortNow" target="_blank" rel="noopener">GitHub ↗</a>
-            </div>
-          </div>
-        </div>
         <div class="proj">
           <a href="https://spondylolisthesis-vertebral-detection-gi2nd3afpslw7cphsjrxzj.streamlit.app/" target="_blank" rel="noopener" style="display:block; overflow:hidden; border:1px solid var(--line); border-radius:4px; background:#000; transition:border-color 0.2s;">
             <img src="spondylolisthesis-demo.png" alt="Spondylolisthesis Classifier Interactive Interface with SHAP explanation" style="width:100%; height:auto; display:block;">
@@ -506,6 +488,24 @@
             <div style="margin-top:22px; display:flex; gap:16px; flex-wrap:wrap;">
               <a class="link" href="https://spondylolisthesis-vertebral-detection-gi2nd3afpslw7cphsjrxzj.streamlit.app/" target="_blank" rel="noopener">Live Streamlit App ↗</a>
               <a class="link" href="https://github.com/lavanyanigam/Spondylolisthesis-Vertebral-Detection" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+          </div>
+        </div>
+        <div class="proj">
+          <a href="https://github.com/lavanyanigam/SortNow" target="_blank" rel="noopener" style="display:block; overflow:hidden; border:1px solid var(--line); border-radius:4px; background:#000; transition:border-color 0.2s;">
+            <img src="sortnow-demo.png" alt="SortNow Custom YOLO Waste Classification Demo" style="width:100%; height:auto; display:block;">
+          </a>
+          <div>
+            <h3>SortNow</h3>
+            <div class="tagline">CUSTOM YOLO · WASTE CLASSIFICATION</div>
+            <p>A YOLOv1-style detector built from scratch - 14×14 grid, 2 boxes per cell, that sorts waste into six categories through a Flask web app, trained on 7,260 images and validated on 3,114.</p>
+            <div class="stats">
+              <div><b>448×448</b>input</div>
+              <div><b>6</b>classes</div>
+              <div><b>100</b>epochs (early-stop 64)</div>
+            </div>
+            <div style="margin-top:22px; display:flex; gap:16px; flex-wrap:wrap;">
+              <a class="link" href="https://github.com/lavanyanigam/SortNow" target="_blank" rel="noopener">GitHub ↗</a>
             </div>
           </div>
         </div>
